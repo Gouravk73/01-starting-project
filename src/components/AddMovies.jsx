@@ -1,41 +1,43 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react';
 
-const AddMovies = () => {
-    const[title,setTitle]=useState('');
-    const[openingText,setOpeningText]=useState('');
-    const[releaseDate,setReleaseDate]=useState('');
-    const[addedMoves,setAddedMovie]=useState([]);
-    const submitHandler=(e)=>{
-        e.preventDefault();
-        const dummyData={
-            title,
-            openingText,
-            releaseDate,
-        }
-        setAddedMovie([...addedMoves,dummyData]);
-        setTitle('');
-        setOpeningText('');
-        setReleaseDate('');
-    }
+import classes from './AddMovie.module.css';
+
+function AddMovies(props) {
+  const titleRef = useRef('');
+  const openingTextRef = useRef('');
+  const releaseDateRef = useRef('');
+
+  function submitHandler(event) {
+    event.preventDefault();
+
+    // could add validation here...
+
+    const movie = {
+      title: titleRef.current.value,
+      openingText: openingTextRef.current.value,
+      releaseDate: releaseDateRef.current.value,
+    };
+
+    props.onAddMovie(movie);
+  }
+
   return (
-    <div>
-        <form action="" onSubmit={submitHandler}>
-            <div>
-                <label htmlFor="title">Title</label><br />
-                <input type="text" name="title" id="title"  onChange={(e)=>setTitle(e.target.value)}/>
-            </div>
-            <div className='opening-text'>
-                <label htmlFor="openingText">Opening Text</label><br />
-                <input type="text" name="openingText" id="openingText" onChange={(e)=>setOpeningText(e.target.value)}/>
-            </div>
-            <div>
-                <label htmlFor="releaseDate">Release Date</label><br />
-                <input type="text" name="releaseDate" id="releaseDate" onChange={(e)=>setReleaseDate(e.target.value)}/>
-            </div>
-            <button>ADD Movies</button>
-        </form>
-    </div>
-  )
+    <form onSubmit={submitHandler}>
+      <div className={classes.control}>
+        <label htmlFor='title'>Title</label>
+        <input type='text' id='title' ref={titleRef} />
+      </div>
+      <div className={classes.control}>
+        <label htmlFor='opening-text'>Opening Text</label>
+        <textarea rows='5' id='opening-text' ref={openingTextRef}></textarea>
+      </div>
+      <div className={classes.control}>
+        <label htmlFor='date'>Release Date</label>
+        <input type='text' id='date' ref={releaseDateRef} />
+      </div>
+      <button>Add Movie</button>
+    </form>
+  );
 }
 
-export default AddMovies
+export default AddMovies;
