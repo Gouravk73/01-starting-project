@@ -27,3 +27,17 @@ button:active {
   background-color: #460897;
   border-color: #460897;
 }
+form{
+  text-align: left;
+  font-size: large;
+  font-weight: bold;
+}
+input[type="text"]{
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  margin: 5px; 
+}
+.opening-text input[type="text"]{
+  height: 100px;
+}
