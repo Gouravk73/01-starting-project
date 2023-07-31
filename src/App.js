@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState,useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
@@ -8,8 +8,7 @@ function App() {
   const[loading,setLoading]=useState(false);
   const[error,setError]=useState(null);
 
-
- async function fetchMoviesHandler(){
+  const fetchMoviesHandler=useCallback(async()=>{
   setLoading(true);
   setError(null);
   try{
@@ -36,7 +35,13 @@ function App() {
     }
     setLoading(false);
 
- };
+ },[]);
+
+ 
+ useEffect(() => {
+  fetchMoviesHandler();
+}, [fetchMoviesHandler]);
+
   return (
     <React.Fragment>
       <section>
@@ -50,7 +55,7 @@ function App() {
         {loading&& <p>Loading</p>}
         
         {!loading && error && <p>Error: {error}</p>}
-        {!loading&&error&& <button onClick={()=>setError(!error)}> Cancel Retrying </button>}
+        {!loading&&error&& <button onClick={()=>setError(null)}> Cancel Retrying </button>}
       </section>
     </React.Fragment>
   );
